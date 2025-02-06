@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Market Sentiment Analysis</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+    }
+
+    header {
+      text-align: center;
+      padding: 50px 20px;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin: 0;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      animation: fadeIn 3s ease-in-out;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 70vh;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.3);
+      animation: slideIn 1.5s ease-in-out;
+    }
+
+    .hero-content h2 {
+      font-size: 2.5rem;
+      margin: 0;
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      margin: 20px 0;
+    }
+
+    /* CTA Button */
+    .cta-button {
+      padding: 15px 30px;
+      font-size: 1rem;
+      color: #fff;
+      background: #ff6f61;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite;
+    }
+
+    .cta-button:hover {
+      background: #ff3b2f;
+      transform: scale(1.1);
+    }
+
+    /* Features Section */
+    .features {
+      display: flex;
+      justify-content: space-around;
+      padding: 50px 20px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .feature-card {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 10px;
+      width: 30%;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    .feature-card p {
+      font-size: 1rem;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Stock Market Sentiment Analysis</h1>
+      <p>Analyze market trends with advanced sentiment data</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h2>Unlock Insights with Sentiment Data</h2>
+        <p>Explore real-time sentiment analysis for stocks and make informed decisions.</p>
+        <button class="cta-button">predict</button>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="feature-card">
+        <h3>Real-Time Data</h3>
+        <p>Access up-to-date sentiment data for stocks.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Advanced Analytics</h3>
+        <p>Visualize trends with interactive charts.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Custom Alerts</h3>
+        <p>Set alerts for specific sentiment thresholds.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Stock Market Sentiment Analysis. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Redirect to /predict when the CTA button is clicked
+    const ctaButton = document.querySelector('.cta-button');
+
+    ctaButton.addEventListener('click', () => {
+      window.location.href = window.location.origin + '/predict';
+    });
+
+    // Add hover effects to feature cards
+    const featureCards = document.querySelectorAll('.feature-card');
+
+    featureCards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)';
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.boxShadow = 'none';
+      });
+    });
+  </script>
+</body>
+</html>
