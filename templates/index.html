@@ -12,12 +12,14 @@
       padding: 0;
       background: linear-gradient(135deg, #1e3c72, #2a5298);
       color: #fff;
+      overflow-x: hidden;
     }
 
     header {
       text-align: center;
       padding: 50px 20px;
       background: rgba(0, 0, 0, 0.5);
+      animation: fadeInDown 2s ease-in-out;
     }
 
     header h1 {
@@ -40,19 +42,42 @@
       text-align: center;
       background: rgba(0, 0, 0, 0.3);
       animation: slideIn 1.5s ease-in-out;
+      overflow: hidden;
+      position: relative;
     }
 
     .hero-content h2 {
-      font-size: 2.5rem;
+      font-size: 3rem;
       margin: 0;
+      animation: textBounce 3s infinite;
     }
 
     .hero-content p {
       font-size: 1.2rem;
       margin: 20px 0;
+      animation: fadeInUp 2s ease-in-out;
     }
 
-    /* CTA Button */
+    /* Parallax Decoration */
+    .parallax-circle {
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.2);
+      position: absolute;
+      border-radius: 50%;
+      animation: float 6s infinite alternate;
+    }
+
+    .parallax-circle.one {
+      top: 10%;
+      left: 20%;
+    }
+
+    .parallax-circle.two {
+      bottom: 10%;
+      right: 15%;
+    }
+
     .cta-button {
       padding: 15px 30px;
       font-size: 1rem;
@@ -84,11 +109,15 @@
       border-radius: 10px;
       width: 30%;
       text-align: center;
-      transition: transform 0.3s ease;
+      opacity: 0;
+      transform: translateY(50px) rotate(-2deg);
+      animation: cardSlideUp 1.5s forwards;
+      animation-delay: var(--delay, 0s);
     }
 
     .feature-card:hover {
-      transform: translateY(-10px);
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     }
 
     .feature-card h3 {
@@ -117,9 +146,20 @@
       }
     }
 
-    @keyframes slideIn {
+    @keyframes fadeInUp {
       from {
-        transform: translateY(-50px);
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        transform: translateY(-30px);
         opacity: 0;
       }
       to {
@@ -139,6 +179,46 @@
         transform: scale(1);
       }
     }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes textBounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes float {
+      from {
+        transform: translateY(0);
+      }
+      to {
+        transform: translateY(20px);
+      }
+    }
+
+    @keyframes cardSlideUp {
+      from {
+        transform: translateY(50px) rotate(-5deg);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 <body>
@@ -151,6 +231,8 @@
 
   <main>
     <section class="hero">
+      <div class="parallax-circle one"></div>
+      <div class="parallax-circle two"></div>
       <div class="hero-content">
         <h2>Unlock Insights with Sentiment Data</h2>
         <p>Explore real-time sentiment analysis for stocks and make informed decisions.</p>
@@ -159,15 +241,15 @@
     </section>
 
     <section class="features">
-      <div class="feature-card">
+      <div class="feature-card" style="--delay: 0.2s">
         <h3>Real-Time Data</h3>
         <p>Access up-to-date sentiment data for stocks.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card" style="--delay: 0.4s">
         <h3>Advanced Analytics</h3>
         <p>Visualize trends with interactive charts.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card" style="--delay: 0.6s">
         <h3>Custom Alerts</h3>
         <p>Set alerts for specific sentiment thresholds.</p>
       </div>
@@ -179,24 +261,31 @@
   </footer>
 
   <script>
-    // Redirect to /predict when the CTA button is clicked
-    const ctaButton = document.querySelector('.cta-button');
+    // Smooth scrolling animations for feature cards
+    const featureCards = document.querySelectorAll('.feature-card');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+        }
+      });
+    }, { threshold: 0.5 });
 
-    ctaButton.addEventListener('click', () => {
-      window.location.href = window.location.origin + '/predict';
+    featureCards.forEach(card => observer.observe(card));
+
+    // Parallax circle animation on mousemove
+    document.addEventListener('mousemove', (e) => {
+      document.querySelectorAll('.parallax-circle').forEach(circle => {
+        const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+        const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+        circle.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      });
     });
 
-    // Add hover effects to feature cards
-    const featureCards = document.querySelectorAll('.feature-card');
-
-    featureCards.forEach(card => {
-      card.addEventListener('mouseenter', () => {
-        card.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)';
-      });
-
-      card.addEventListener('mouseleave', () => {
-        card.style.boxShadow = 'none';
-      });
+    // Redirect to /predict when the CTA button is clicked
+    const ctaButton = document.querySelector('.cta-button');
+    ctaButton.addEventListener('click', () => {
+      window.location.href = window.location.origin + '/predict';
     });
   </script>
 </body>
