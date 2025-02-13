@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prediction Page</title>
-    <style>
+    <style>q    
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #6a11cb, #2575fc);
@@ -114,9 +114,10 @@
 <body>
     <div class="container">
         <h1>Send Your Data</h1>
-        <form id="dataForm">
+        <form action="/predict" method="POST">
+
             <label for="inputData">Enter your data:</label>
-            <input type="text" id="inputData" name="inputData" required>
+            <input type="text" id="inputData" id="message" name="message" required>
             <button type="submit">Send Data</button>
         </form>
         <div id="result" class="result"></div>
@@ -127,6 +128,7 @@
             event.preventDefault(); // Prevent the form from submitting the default way
 
             const inputData = document.getElementById('inputData').value;
+            const resultDiv = document.getElementById('result');
 
             try {
                 const response = await fetch('http://your-backend-url/send-data', {
@@ -137,4 +139,19 @@
                     body: JSON.stringify({ data: inputData }),
                 });
 
-                if (!response.ok)
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                resultDiv.textContent = `Result: ${result.message}`; // Assuming the backend returns a JSON with a 'message' field
+                resultDiv.style.opacity = 1; // Make the result visible
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+                resultDiv.style.opacity = 1; // Make the result visible
+            }
+        });
+    </script>
+    
+</body>
+</html>
